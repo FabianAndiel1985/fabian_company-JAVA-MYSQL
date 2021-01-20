@@ -13,8 +13,9 @@ public class UI extends JFrame {
 	
 	private JLabel label1;
 	private JLabel label2;
-	private JButton button1;
+	private JButton showEmployeesBtn;
 	private JButton button2;
+	private EmployeeTable employeeTable;
 	
 	public UI() {
 		
@@ -27,11 +28,11 @@ public class UI extends JFrame {
 		this.add(label1);
 		
 		
-		this.button1 =new JButton("show employees");
+		this.showEmployeesBtn =new JButton("show all employees");
 		
-		this.add(button1);
+		this.add(showEmployeesBtn);
 		
-		this.button2 =new JButton("sort employees");
+		this.button2 =new JButton("sort by lastname");
 		
 		this.add(button2);
 		
@@ -45,12 +46,12 @@ public class UI extends JFrame {
 		this.label1 = label1;
 	}
 
-	public JButton getButton1() {
-		return button1;
+	public JButton getShowEmployeesBtn() {
+		return showEmployeesBtn;
 	}
 
-	public void setButton1(JButton button1) {
-		this.button1 = button1;
+	public void setShowEmployeesBtn(JButton button1) {
+		this.showEmployeesBtn = button1;
 	}
 
 	public JButton getButton2() {
@@ -60,6 +61,25 @@ public class UI extends JFrame {
 	public void setButton2(JButton button2) {
 		this.button2 = button2;
 	}
+
+	public JLabel getLabel2() {
+		return label2;
+	}
+
+	public void setLabel2(JLabel label2) {
+		this.label2 = label2;
+	}
+
+	public EmployeeTable getEmployeeTable() {
+		return employeeTable;
+	}
+
+	public void setEmployeeTable(EmployeeTable employeeTable) {
+		this.employeeTable = employeeTable;
+	}
+	
+	
+	
 
 }
 

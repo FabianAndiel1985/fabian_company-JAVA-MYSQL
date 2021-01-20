@@ -4,6 +4,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.Employee;
+import model.Employee;
+
+
 
 public class DatabaseService {
 	
@@ -15,11 +21,34 @@ public class DatabaseService {
 		this.myStat = this.myCon.createStatement();
 	}
 	
-	public ResultSet queryDB(String query) throws SQLException {
+	
+	
+	public List<Employee> getEmployees() throws SQLException {
 		
-		return this.myStat.executeQuery(query);
+		ResultSet res =  this.getWholeEmployeeData();
 		
-//		Abstufungen machen für die anderen MYSQL Queries
+		List<Employee> list = new ArrayList<Employee>();
+		while(res.next()) {
+			Employee employee = new Employee();
+			employee.setId(res.getInt("id"));
+			employee.setFirstname(res.getString("firstname"));
+			employee.setLastname(res.getString("lastname"));
+			employee.setDepartment(res.getString("department"));
+			employee.setLastname(res.getString("lastname"));
+			employee.setSalary(res.getDouble("salary"));
+			list.add(employee);
+		}
+		return list;
 	}
+	
+	
+	private ResultSet getWholeEmployeeData() throws SQLException {
+		
+		return this.myStat.executeQuery("select * from employees");
+
+	}
+	
+	
+	
 	
 }

@@ -19,14 +19,14 @@ public class EmployeeTable extends JScrollPane{
 		
 		JTable jTabel = new JTable(rowData, columnNames);
 		
-		//Scrollbar definieren
+
 		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		//Positionieren
+	
 		setPreferredSize(new Dimension(400, 100));
 		
-		//Die Tabelle den Scrollpane zuweisen:
+		
 		setViewportView(jTabel);
 				
 	}
