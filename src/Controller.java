@@ -1,4 +1,4 @@
-package main;
+
 
 import java.awt.BorderLayout;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ public class Controller {
 	private List<Employee> employeeList;
 	private UI view;
 
-	public Controller() throws SQLException, NullPointerException  {
+	public Controller() throws SQLException  {
 		this.view =new UI();
 		this.initUI();
 		this.dbService = new DatabaseService();
@@ -67,8 +67,6 @@ public class Controller {
 		this.initShowEmployeesBtn();
 		this.initSortByLastNameBtn();
 		this.initWriteEmployeesToFile();
-		
-		
 	}
 	
 	private void initShowEmployeesBtn() {
@@ -88,20 +86,17 @@ public class Controller {
 	
 }
 	
-
+	
+	
 	private void initWriteEmployeesToFile() {
 		this.view.getWriteEmployeesToFile().addActionListener(
 			e -> {
 				try {
 					this.writeToFile();
-				} catch (FileAlreadyExistsException e1) {
-					System.out.println("File already exists");
-					e1.printStackTrace();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				  
 			});
 	}
 	

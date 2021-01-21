@@ -14,7 +14,8 @@ public class UI extends JFrame {
 	private JLabel label1;
 	private JLabel label2;
 	private JButton showEmployeesBtn;
-	private JButton button2;
+	private JButton sortEmployeesByLastNameBtn;
+	private JButton writeEmployeesToFile;
 	private EmployeeTable employeeTable;
 	
 	public UI() {
@@ -32,10 +33,13 @@ public class UI extends JFrame {
 		
 		this.add(showEmployeesBtn);
 		
-		this.button2 =new JButton("sort by lastname");
+		this.sortEmployeesByLastNameBtn =new JButton("sort by lastname");
 		
-		this.add(button2);
+		this.add(sortEmployeesByLastNameBtn);
 		
+		this.writeEmployeesToFile = new JButton("write Employees ToFile");
+		
+		this.add(writeEmployeesToFile);
 	}
 
 	public JLabel getLabel1() {
@@ -54,12 +58,12 @@ public class UI extends JFrame {
 		this.showEmployeesBtn = button1;
 	}
 
-	public JButton getButton2() {
-		return button2;
+	public JButton getWriteEmployeesToFile() {
+		return writeEmployeesToFile;
 	}
 
-	public void setButton2(JButton button2) {
-		this.button2 = button2;
+	public void setWriteEmployeesToFile(JButton writeEmployeesToFile) {
+		this.writeEmployeesToFile = writeEmployeesToFile;
 	}
 
 	public JLabel getLabel2() {
@@ -77,9 +81,14 @@ public class UI extends JFrame {
 	public void setEmployeeTable(EmployeeTable employeeTable) {
 		this.employeeTable = employeeTable;
 	}
-	
-	
-	
+
+	public JButton getSortEmployeesByLastNameBtn() {
+		return sortEmployeesByLastNameBtn;
+	}
+
+	public void setSortEmployeesByLastNameBtn(JButton sortEmployeesByLastNameBtn) {
+		this.sortEmployeesByLastNameBtn = sortEmployeesByLastNameBtn;
+	}
 
 }
 

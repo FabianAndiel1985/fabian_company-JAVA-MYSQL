@@ -1,5 +1,6 @@
 package main;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +23,13 @@ public class Main {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		catch (NullPointerException e) {
+			System.out.println("Is the XAMPP turned on? ");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	 }
 	}
 	 
