@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,20 +28,22 @@ public class Controller {
 	private DatabaseService dbService; 
 	private List<Employee> employeeList;
 	private UI view;
+	private Path savedFileTargetPath;
 
 	public Controller() throws SQLException, NullPointerException  {
 		this.view =new UI();
 		this.initUI();
 		this.dbService = new DatabaseService();
 		this.employeeList = dbService.getEmployees();
-		
 	}
 	
 	private void writeToFile() throws IOException, FileAlreadyExistsException  {
 		
-		Path targetPath = this.createFile("save.ser");
+		this.savedFileTargetPath = this.createFile("save.ser");
 		
-		FileOutputStream output = new FileOutputStream(targetPath.toString());
+		System.out.println(this.savedFileTargetPath);
+		
+		FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
 		
 		ObjectOutputStream objOutput = new ObjectOutputStream(output);
 		
@@ -67,9 +70,28 @@ public class Controller {
 		this.initShowEmployeesBtn();
 		this.initSortByLastNameBtn();
 		this.initWriteEmployeesToFile();
-		
-		
+		this.initSortEmployeesBySalary();
 	}
+	
+	private void initSortEmployeesBySalary() {
+	
+		this.view.getSortEmployeesBySalaryBtn().addActionListener(
+	e -> {
+		List<Employee> sortedList = this.sortEmployeesBySalary(this.employeeList);
+		this.createEmployeeTable(sortedList);
+	});
+	}
+	
+	
+	private List<Employee> sortEmployeesBySalary( List<Employee> employees ) {
+		
+		List<Employee> tmpList = new ArrayList<Employee>();
+		tmpList.addAll(employeeList);
+		tmpList.sort(Comparator.comparingDouble(e ->  e.getSalary()));
+		
+		return tmpList;
+}
+	
 	
 	private void initShowEmployeesBtn() {
 		this.view.getShowEmployeesBtn().addActionListener(
@@ -94,10 +116,17 @@ public class Controller {
 			e -> {
 				try {
 					this.writeToFile();
-				} catch (FileAlreadyExistsException e1) {
-					System.out.println("File already exists");
-					e1.printStackTrace();
-				} catch (IOException e1) {
+				} 
+				catch (FileAlreadyExistsException e1) {
+					File existingFile = new File(savedFileTargetPath.toString()); 
+					existingFile.delete();
+//					try {
+//						this.writeToFile();
+//					} catch (IOException e2) {
+//						e2.printStackTrace();
+//					}
+				}
+			catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
