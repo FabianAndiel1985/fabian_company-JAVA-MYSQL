@@ -50,6 +50,8 @@ public class Controller {
 		for(Employee e : this.employeeList) {
 			objOutput.writeObject(e);	
 		}
+		
+		objOutput.close();
 	}
 	
 
@@ -57,6 +59,8 @@ public class Controller {
 	private Path createFile(String targetFileName) throws IOException,FileAlreadyExistsException {
 			
 			String currentWorkingDirectory = System.getProperty("user.dir");
+			
+			System.out.println(currentWorkingDirectory);
 		
 			Path targetFile = Paths.get(currentWorkingDirectory,targetFileName);
 			
@@ -71,6 +75,10 @@ public class Controller {
 		this.initSortByLastNameBtn();
 		this.initWriteEmployeesToFile();
 		this.initSortEmployeesBySalary();
+		String currentWorkingDirectory = System.getProperty("user.dir");
+		
+		System.out.println(currentWorkingDirectory);
+	
 	}
 	
 	private void initSortEmployeesBySalary() {
@@ -117,20 +125,24 @@ public class Controller {
 				try {
 					this.writeToFile();
 				} 
+				
 				catch (FileAlreadyExistsException e1) {
-					File existingFile = new File(savedFileTargetPath.toString()); 
-					existingFile.delete();
-//					try {
-//						this.writeToFile();
-//					} catch (IOException e2) {
-//						e2.printStackTrace();
-//					}
+					
+		            try {
+						Files.deleteIfExists(Paths.get(this.savedFileTargetPath.toString()));
+						this.writeToFile();
+						
+					} catch (IOException e2) {
+						
+						e2.printStackTrace();
+					} 
+					
 				}
-			catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				  
+				
+				catch (IOException e3) {
+						
+						e3.printStackTrace();
+					} 
 			});
 	}
 	
