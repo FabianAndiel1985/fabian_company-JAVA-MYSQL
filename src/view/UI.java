@@ -17,6 +17,7 @@ public class UI extends JFrame {
 	private JButton sortEmployeesByLastNameBtn;
 	private JButton sortEmployeesBySalaryBtn;
 	private JButton writeEmployeesToFile;
+	private JButton readEmployeesFromFile;
 	private EmployeeTable employeeTable;
 	
 	public UI() {
@@ -45,6 +46,18 @@ public class UI extends JFrame {
 		this.writeEmployeesToFile = new JButton("write Employees ToFile");
 		
 		this.add(writeEmployeesToFile);
+		
+		this.readEmployeesFromFile = new JButton("read Employee File");
+		
+		this.add(this.readEmployeesFromFile);
+	}
+
+	public JButton getReadEmployeesFromFile() {
+		return readEmployeesFromFile;
+	}
+
+	public void setReadEmployeesFromFile(JButton readEmployeesFromFile) {
+		this.readEmployeesFromFile = readEmployeesFromFile;
 	}
 
 	public JButton getSortEmployeesBySalaryBtn() {

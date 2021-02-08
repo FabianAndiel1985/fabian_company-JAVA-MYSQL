@@ -20,7 +20,7 @@ public class Employee implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Employee [firstname=" + firstname + ", lastname=" + lastname + ", department=" + department + "]";
+		return "Employee [firstname=" + firstname + ", lastname=" + lastname + ", department=" + department + ",salary " +salary+"]";
 	}
 
 	public Employee(int id, String firstname, String lastname, String department, double salary) {

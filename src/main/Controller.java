@@ -1,11 +1,13 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -35,13 +37,23 @@ public class Controller {
 		this.initUI();
 		this.dbService = new DatabaseService();
 		this.employeeList = dbService.getEmployees();
+		
+//		MACHEN  DASS ER NUR DAS FILE ERZEUGT WENN ES EXISTIERT
+		
+		try {
+			this.savedFileTargetPath = this.createFile("save.ser");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	private void writeToFile() throws IOException, FileAlreadyExistsException  {
 		
-		this.savedFileTargetPath = this.createFile("save.ser");
 		
-		System.out.println(this.savedFileTargetPath);
+		Files.createFile(this.savedFileTargetPath);
+		
 		
 		FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
 		
@@ -63,8 +75,7 @@ public class Controller {
 			System.out.println(currentWorkingDirectory);
 		
 			Path targetFile = Paths.get(currentWorkingDirectory,targetFileName);
-			
-			Files.createFile(targetFile);
+		
 			
 			return targetFile;
 		}
@@ -74,10 +85,8 @@ public class Controller {
 		this.initShowEmployeesBtn();
 		this.initSortByLastNameBtn();
 		this.initWriteEmployeesToFile();
+		this.initReadEmployeesFromFile();
 		this.initSortEmployeesBySalary();
-		String currentWorkingDirectory = System.getProperty("user.dir");
-		
-		System.out.println(currentWorkingDirectory);
 	
 	}
 	
@@ -117,6 +126,50 @@ public class Controller {
 	});
 	
 }
+	
+
+	private void initReadEmployeesFromFile() {
+		this.view.getReadEmployeesFromFile().addActionListener(
+			e -> {
+				try {
+					this.readEmployeesFromFile();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+			});
+	}
+	
+	
+	private void readEmployeesFromFile() throws IOException {
+				
+		  
+				Employee emp = null;
+		       FileInputStream fileInputStream=null;
+		       boolean cont = true; 
+		       List<Employee> employees = new ArrayList<Employee>();
+				fileInputStream = new FileInputStream(this.savedFileTargetPath.toString());
+				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+				
+				while(cont) {
+					try {
+						emp = (Employee) objectInputStream.readObject();
+						employees.add(emp);
+					} catch (EOFException e) {
+						break;
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				objectInputStream.close();
+
+		       System.out.println(employees);
+		   }
+		 
+
+	
 	
 
 	private void initWriteEmployeesToFile() {
