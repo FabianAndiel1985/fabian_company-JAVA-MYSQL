@@ -43,11 +43,11 @@ public class UI extends JFrame {
 		
 		this.add(sortEmployeesBySalaryBtn);
 		
-		this.writeEmployeesToFile = new JButton("write Employees ToFile");
+		this.writeEmployeesToFile = new JButton("save sorted employees");
 		
 		this.add(writeEmployeesToFile);
 		
-		this.readEmployeesFromFile = new JButton("read Employee File");
+		this.readEmployeesFromFile = new JButton("load sorted employees");
 		
 		this.add(this.readEmployeesFromFile);
 	}

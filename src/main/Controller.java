@@ -31,6 +31,7 @@ public class Controller {
 	private List<Employee> employeeList;
 	private UI view;
 	private Path savedFileTargetPath;
+	private List<Employee> sortedEmployeeList;
 
 	public Controller() throws SQLException, NullPointerException  {
 		this.view =new UI();
@@ -49,17 +50,25 @@ public class Controller {
 
 	}
 	
+	
+	private void initUI() {
+		this.initShowEmployeesBtn();
+		this.initSortByLastNameBtn();
+		this.initWriteEmployeesToFile();
+		this.initReadEmployeesFromFile();
+		this.initSortEmployeesBySalary();
+	}
+	
+	
 	private void writeToFile() throws IOException, FileAlreadyExistsException  {
 		
-		
 		Files.createFile(this.savedFileTargetPath);
-		
 		
 		FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
 		
 		ObjectOutputStream objOutput = new ObjectOutputStream(output);
 		
-		for(Employee e : this.employeeList) {
+		for(Employee e : this.sortedEmployeeList) {
 			objOutput.writeObject(e);	
 		}
 		
@@ -75,27 +84,18 @@ public class Controller {
 			System.out.println(currentWorkingDirectory);
 		
 			Path targetFile = Paths.get(currentWorkingDirectory,targetFileName);
-		
 			
 			return targetFile;
 		}
 
-	
-	private void initUI() {
-		this.initShowEmployeesBtn();
-		this.initSortByLastNameBtn();
-		this.initWriteEmployeesToFile();
-		this.initReadEmployeesFromFile();
-		this.initSortEmployeesBySalary();
-	
-	}
+
 	
 	private void initSortEmployeesBySalary() {
 	
 		this.view.getSortEmployeesBySalaryBtn().addActionListener(
 	e -> {
-		List<Employee> sortedList = this.sortEmployeesBySalary(this.employeeList);
-		this.createEmployeeTable(sortedList);
+		this.sortedEmployeeList= this.sortEmployeesBySalary(this.employeeList);
+		this.createEmployeeTable(this.sortedEmployeeList);
 	});
 	}
 	
@@ -113,16 +113,18 @@ public class Controller {
 	private void initShowEmployeesBtn() {
 		this.view.getShowEmployeesBtn().addActionListener(
 				e -> {
-					this.createEmployeeTable(this.employeeList);
+					this.sortedEmployeeList = this.employeeList;
+					this.createEmployeeTable(this.sortedEmployeeList);
 				});
 	}
+	
 	
 	
 	private void initSortByLastNameBtn() {
 		this.view.getSortEmployeesByLastNameBtn().addActionListener(
 	e -> {
-		List<Employee> sortedList = this.sortEmployeesByLastName(this.employeeList);
-		this.createEmployeeTable(sortedList);
+		this.sortedEmployeeList = this.sortEmployeesByLastName(this.employeeList);
+		this.createEmployeeTable(this.sortedEmployeeList);
 	});
 	
 }
