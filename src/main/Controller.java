@@ -22,11 +22,13 @@ import java.util.List;
 
 import model.Employee;
 import service.DatabaseService;
+import service.EmployeeDataService;
 import view.EmployeeTable;
 import view.UI;
 
 public class Controller {
 	
+	private EmployeeDataService employeeDataService;
 	private DatabaseService dbService; 
 	private List<Employee> employeeList;
 	private UI view;
@@ -37,13 +39,13 @@ public class Controller {
 	public Controller() throws SQLException, NullPointerException  {
 		this.view =new UI();
 		this.initUI();
+		this.employeeDataService = new EmployeeDataService();
 		this.dbService = new DatabaseService();
 		this.employeeList = dbService.getEmployees();
 		
 		try {
-			this.savedFileTargetPath = this.createFile("save.ser");
+			this.savedFileTargetPath = this.employeeDataService.createFile("save.ser");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -82,40 +84,19 @@ public class Controller {
 			System.out.println("please get the employees data initially");
 		}
 		
-		
 	}
 	
-
-
-	private Path createFile(String targetFileName) throws IOException,FileAlreadyExistsException {
-			
-			String currentWorkingDirectory = System.getProperty("user.dir");
-			
-			Path targetFile = Paths.get(currentWorkingDirectory,targetFileName);
-			
-			return targetFile;
-		}
-
 
 	
 	private void initSortEmployeesBySalary() {
 	
 		this.view.getSortEmployeesBySalaryBtn().addActionListener(
 	e -> {
-		this.sortedEmployeeList= this.sortEmployeesBySalary(this.employeeList);
+		this.sortedEmployeeList= this.employeeDataService.sortEmployeesBySalary(this.employeeList);
 		this.createEmployeeTable(this.sortedEmployeeList);
 	});
 	}
 	
-	
-	private List<Employee> sortEmployeesBySalary( List<Employee> employees ) {
-		
-		List<Employee> tmpList = new ArrayList<Employee>();
-		tmpList.addAll(employeeList);
-		tmpList.sort(Comparator.comparingDouble(e ->  e.getSalary()));
-		
-		return tmpList;
-}
 	
 	
 	private void initShowEmployeesBtn() {
@@ -131,11 +112,12 @@ public class Controller {
 	private void initSortByLastNameBtn() {
 		this.view.getSortEmployeesByLastNameBtn().addActionListener(
 	e -> {
-		this.sortedEmployeeList = this.sortEmployeesByLastName(this.employeeList);
+		this.sortedEmployeeList = this.employeeDataService.sortEmployeesByLastName(this.employeeList);
 		this.createEmployeeTable(this.sortedEmployeeList);
 	});
 	
 }
+	
 	
 	private void initReadEmployeesFromFile() {
 		this.view.getReadEmployeesFromFile().addActionListener(
@@ -143,7 +125,6 @@ public class Controller {
 				try {
 					this.readEmployeesFromFile();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 
 			});
@@ -152,7 +133,6 @@ public class Controller {
 	
 	private void readEmployeesFromFile() throws IOException {
 				
-		  
 				Employee emp = null;
 		       FileInputStream fileInputStream=null;
 		       boolean cont = true; 
@@ -238,15 +218,5 @@ public class Controller {
 		this.view.setVisible(true);
 			
 	}
-	
-	
-	private List<Employee> sortEmployeesByLastName(List<Employee> employeeList) {	
-		List<Employee> tmpList = new ArrayList<Employee>();
-		tmpList.addAll(employeeList);
-		tmpList.sort(Comparator.comparing(e -> e.getLastname()));
 		
-		return tmpList;
-	}
-	
-	
 }
