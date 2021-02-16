@@ -53,22 +53,7 @@ public class DatabaseService {
 	
 	
 	
-	public EmployeeTable extracted(List<Employee> employeeList) {
-		String[] columnNames = {"id","firstname","lastname","department","salary"};
-		
-		String[][] rowData = new String[employeeList.size()][columnNames.length];
-
-		for (int i = 0; i < rowData.length; i++) {
-			rowData[i][0] = Integer.toString(employeeList.get(i).getId());
-			rowData[i][1] = employeeList.get(i).getFirstname();
-			rowData[i][2] = employeeList.get(i).getLastname();
-			rowData[i][3] = employeeList.get(i).getDepartment();
-			rowData[i][4] = Double.toString(employeeList.get(i).getSalary());
-		}	
-		
-		EmployeeTable table = new EmployeeTable(rowData, columnNames);
-		return table;
-	}
+	
 	
 	
 	

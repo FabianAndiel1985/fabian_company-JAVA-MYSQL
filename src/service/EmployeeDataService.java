@@ -1,7 +1,10 @@
 package service;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -60,6 +63,32 @@ public class EmployeeDataService {
 		
 		EmployeeTable table = new EmployeeTable(rowData, columnNames);
 		return table;
+	}
+	
+	
+	public void writeToFile(List<Employee> sortedEmployeeList, Path savedFileTargetPath  ) throws IOException, FileAlreadyExistsException  {
+
+		if(sortedEmployeeList != null) {
+		
+			Files.createFile(savedFileTargetPath);
+			
+			FileOutputStream output = new FileOutputStream(savedFileTargetPath.toString());
+			
+			ObjectOutputStream objOutput = new ObjectOutputStream(output);
+			
+			for(Employee e : sortedEmployeeList) {
+				objOutput.writeObject(e);	
+			}
+			
+			output.close();
+			
+			objOutput.close();
+		}
+		
+		else {
+			System.out.println("please get the employees data initially");
+		}
+		
 	}
 	
 	

@@ -61,30 +61,6 @@ public class Controller {
 	}
 	
 	
-	private void writeToFile() throws IOException, FileAlreadyExistsException  {
-		
-		if(this.sortedEmployeeList != null) {
-		
-			Files.createFile(this.savedFileTargetPath);
-			
-			FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
-			
-			ObjectOutputStream objOutput = new ObjectOutputStream(output);
-			
-			for(Employee e : this.sortedEmployeeList) {
-				objOutput.writeObject(e);	
-			}
-			
-			output.close();
-			
-			objOutput.close();
-		}
-		
-		else {
-			System.out.println("please get the employees data initially");
-		}
-		
-	}
 	
 
 	
@@ -166,14 +142,14 @@ public class Controller {
 		this.view.getWriteEmployeesToFile().addActionListener(
 			e -> {
 				try {
-					this.writeToFile();
+					this.employeeDataService.writeToFile(this.sortedEmployeeList,this.savedFileTargetPath);
 				} 
 				
 				catch (FileAlreadyExistsException e1) {
 					
 		            try {
 						Files.deleteIfExists(Paths.get(this.savedFileTargetPath.toString()));
-						this.writeToFile();
+						this.employeeDataService.writeToFile(this.sortedEmployeeList,this.savedFileTargetPath);
 						
 					} catch (IOException e2) {
 						
@@ -188,6 +164,34 @@ public class Controller {
 					} 
 			});
 	}
+	
+	
+//	
+//private void writeToFile() throws IOException, FileAlreadyExistsException  {
+////		
+//		if(this.sortedEmployeeList != null) {
+//		
+//			Files.createFile(this.savedFileTargetPath);
+//			
+//			FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
+//			
+//			ObjectOutputStream objOutput = new ObjectOutputStream(output);
+//			
+//			for(Employee e : this.sortedEmployeeList) {
+//				objOutput.writeObject(e);	
+//			}
+//			
+//			output.close();
+//			
+//			objOutput.close();
+//		}
+//		
+//		else {
+//			System.out.println("please get the employees data initially");
+//		}
+//		
+//	}
+	
 	
 	
 
