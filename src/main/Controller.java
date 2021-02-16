@@ -93,7 +93,7 @@ public class Controller {
 		this.view.getSortEmployeesBySalaryBtn().addActionListener(
 	e -> {
 		this.sortedEmployeeList= this.employeeDataService.sortEmployeesBySalary(this.employeeList);
-		this.createEmployeeTable(this.sortedEmployeeList);
+		this.createEmployeeTableInView(this.sortedEmployeeList);
 	});
 	}
 	
@@ -103,7 +103,7 @@ public class Controller {
 		this.view.getShowEmployeesBtn().addActionListener(
 				e -> {
 					this.sortedEmployeeList = this.employeeList;
-					this.createEmployeeTable(this.sortedEmployeeList);
+					this.createEmployeeTableInView(this.sortedEmployeeList);
 				});
 	}
 	
@@ -113,7 +113,7 @@ public class Controller {
 		this.view.getSortEmployeesByLastNameBtn().addActionListener(
 	e -> {
 		this.sortedEmployeeList = this.employeeDataService.sortEmployeesByLastName(this.employeeList);
-		this.createEmployeeTable(this.sortedEmployeeList);
+		this.createEmployeeTableInView(this.sortedEmployeeList);
 	});
 	
 }
@@ -191,25 +191,13 @@ public class Controller {
 	
 	
 
-	private void createEmployeeTable(List<Employee> employeeList) {
+	private void createEmployeeTableInView(List<Employee> employeeList) {
 		
 		if (this.view.getEmployeeTable() != null) {
 			this.view.remove(this.view.getEmployeeTable());
 		}
 		
-		String[] columnNames = {"id","firstname","lastname","department","salary"};
-		
-		String[][] rowData = new String[employeeList.size()][columnNames.length];
-
-		for (int i = 0; i < rowData.length; i++) {
-			rowData[i][0] = Integer.toString(employeeList.get(i).getId());
-			rowData[i][1] = employeeList.get(i).getFirstname();
-			rowData[i][2] = employeeList.get(i).getLastname();
-			rowData[i][3] = employeeList.get(i).getDepartment();
-			rowData[i][4] = Double.toString(employeeList.get(i).getSalary());
-		}	
-		
-		EmployeeTable table = new EmployeeTable(rowData, columnNames);
+		EmployeeTable table = this.employeeDataService.createEmployeeTable(employeeList);
 		
 		this.view.setEmployeeTable(table);
 		
@@ -218,5 +206,8 @@ public class Controller {
 		this.view.setVisible(true);
 			
 	}
+
+
+
 		
 }
