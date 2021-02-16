@@ -1,0 +1,31 @@
+In den Table einfügen
+
+INSERT INTO table_name (id, firstname, lastname, department
+VALUES (null, 'Max', 'Mustermann', 'IT',2300.3),
+(null, 'Maxine', 'Musterfrau', 'IT',2300.8),
+(null, 'Roland', 'Dueringer', 'IT',,2300.2),
+(null, 'Markus', 'Ranz', 'IT',1732.4),
+(null, 'Ross', 'Jones', 'MARKETING'),4923.9,
+(null, 'Fabian', 'Andiel', 'IT',1800.3),
+(null, 'Josef', 'Ranz', 'DESIGN',1400.23),
+(null, 'Sarah', 'Ross', 'DESIGN',1600.43),
+(null, 'Lorenz', 'Maier', 'DESIGN',1000.12),
+(null, 'Roland', 'Dueringer', 'IT',,2300.2),
+(null, 'Tom', 'Marketer', 'MARKETING',8000.21),
+(null, 'Lorenz', 'Maier', 'DESIGN',1000.12)
+;
+
+
+
+
+
+Create the table
+
+CREATE TABLE employees(
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+firstname VARCHAR(30) NOT NULL,
+lastname VARCHAR(30) NOT NULL,
+department VARCHAR(50) NOT NULL,
+salary DECIMAL(10, 2) UNSIGNED NOT NULL
+)
+

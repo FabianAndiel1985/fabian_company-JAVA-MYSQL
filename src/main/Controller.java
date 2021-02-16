@@ -1,24 +1,12 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
 
 import model.Employee;
 import service.DatabaseService;
@@ -61,9 +49,6 @@ public class Controller {
 	}
 	
 	
-	
-
-	
 	private void initSortEmployeesBySalary() {
 	
 		this.view.getSortEmployeesBySalaryBtn().addActionListener(
@@ -99,7 +84,7 @@ public class Controller {
 		this.view.getReadEmployeesFromFile().addActionListener(
 			e -> {
 				try {
-					this.readEmployeesFromFile();
+					this.employeeDataService.readEmployeesFromFile(this.savedFileTargetPath);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} 
@@ -107,37 +92,8 @@ public class Controller {
 	}
 	
 	
-	private void readEmployeesFromFile() throws IOException {
-				
-				Employee emp = null;
-		       FileInputStream fileInputStream=null;
-		       boolean cont = true; 
-		       List<Employee> employees = new ArrayList<Employee>();
-				fileInputStream = new FileInputStream(this.savedFileTargetPath.toString());
-				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-				
-				while(cont) {
-					try {
-						emp = (Employee) objectInputStream.readObject();
-						employees.add(emp);
-					} catch (EOFException e) {
-						break;
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-					
-				}
-				fileInputStream.close();
-				
-				objectInputStream.close();
-
-		       System.out.println(employees);
-		   }
-		 
-
 	
 	
-
 	private void initWriteEmployeesToFile() {
 		this.view.getWriteEmployeesToFile().addActionListener(
 			e -> {
@@ -165,36 +121,8 @@ public class Controller {
 			});
 	}
 	
-	
-//	
-//private void writeToFile() throws IOException, FileAlreadyExistsException  {
-////		
-//		if(this.sortedEmployeeList != null) {
-//		
-//			Files.createFile(this.savedFileTargetPath);
-//			
-//			FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
-//			
-//			ObjectOutputStream objOutput = new ObjectOutputStream(output);
-//			
-//			for(Employee e : this.sortedEmployeeList) {
-//				objOutput.writeObject(e);	
-//			}
-//			
-//			output.close();
-//			
-//			objOutput.close();
-//		}
-//		
-//		else {
-//			System.out.println("please get the employees data initially");
-//		}
-//		
-//	}
-	
-	
-	
 
+	
 	private void createEmployeeTableInView(List<Employee> employeeList) {
 		
 		if (this.view.getEmployeeTable() != null) {
@@ -210,8 +138,6 @@ public class Controller {
 		this.view.setVisible(true);
 			
 	}
-
-
 
 		
 }

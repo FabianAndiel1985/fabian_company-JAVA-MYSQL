@@ -1,7 +1,10 @@
 package service;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -90,6 +93,36 @@ public class EmployeeDataService {
 		}
 		
 	}
+	
+	public void readEmployeesFromFile(Path savedFileTargetPath ) throws IOException {
+	
+	Employee emp = null;
+    FileInputStream fileInputStream=null;
+    boolean cont = true; 
+    
+    List<Employee> employees = new ArrayList<Employee>();
+	fileInputStream = new FileInputStream(savedFileTargetPath.toString());
+	ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+	
+	while(cont) {
+		try {
+			emp = (Employee) objectInputStream.readObject();
+			employees.add(emp);
+		} catch (EOFException e) {
+			break;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	fileInputStream.close();
+	
+	objectInputStream.close();
+
+   System.out.println(employees);
+}
+
+
 	
 	
 	
