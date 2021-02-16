@@ -33,13 +33,12 @@ public class Controller {
 	private Path savedFileTargetPath;
 	private List<Employee> sortedEmployeeList;
 
+
 	public Controller() throws SQLException, NullPointerException  {
 		this.view =new UI();
 		this.initUI();
 		this.dbService = new DatabaseService();
 		this.employeeList = dbService.getEmployees();
-		
-//		MACHEN  DASS ER NUR DAS FILE ERZEUGT WENN ES EXISTIERT
 		
 		try {
 			this.savedFileTargetPath = this.createFile("save.ser");
@@ -62,17 +61,28 @@ public class Controller {
 	
 	private void writeToFile() throws IOException, FileAlreadyExistsException  {
 		
-		Files.createFile(this.savedFileTargetPath);
+		if(this.sortedEmployeeList != null) {
 		
-		FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
-		
-		ObjectOutputStream objOutput = new ObjectOutputStream(output);
-		
-		for(Employee e : this.sortedEmployeeList) {
-			objOutput.writeObject(e);	
+			Files.createFile(this.savedFileTargetPath);
+			
+			FileOutputStream output = new FileOutputStream(this.savedFileTargetPath.toString());
+			
+			ObjectOutputStream objOutput = new ObjectOutputStream(output);
+			
+			for(Employee e : this.sortedEmployeeList) {
+				objOutput.writeObject(e);	
+			}
+			
+			output.close();
+			
+			objOutput.close();
 		}
 		
-		objOutput.close();
+		else {
+			System.out.println("please get the employees data initially");
+		}
+		
+		
 	}
 	
 
@@ -81,8 +91,6 @@ public class Controller {
 			
 			String currentWorkingDirectory = System.getProperty("user.dir");
 			
-			System.out.println(currentWorkingDirectory);
-		
 			Path targetFile = Paths.get(currentWorkingDirectory,targetFileName);
 			
 			return targetFile;
@@ -129,7 +137,6 @@ public class Controller {
 	
 }
 	
-
 	private void initReadEmployeesFromFile() {
 		this.view.getReadEmployeesFromFile().addActionListener(
 			e -> {
@@ -164,6 +171,7 @@ public class Controller {
 					}
 					
 				}
+				fileInputStream.close();
 				
 				objectInputStream.close();
 
